@@ -1,3 +1,4 @@
+
 package com.example.demo;
 
 import java.util.List;
@@ -19,7 +20,10 @@ import com.example.demo.repository.UserRepository;
 
 @RestController
 @CrossOrigin(
-        origins = "http://localhost:3000",
+        origins = {
+                "http://localhost:3000",
+                "https://smart-campus-placement-frontend.vercel.app"
+        },
         allowCredentials = "true"
 )
 public class UserController {
@@ -30,13 +34,11 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     // Home
     @GetMapping("/d")
     public String home() {
         return "Home";
     }
-
 
     // Register
     @PostMapping("/register")
@@ -59,7 +61,6 @@ public class UserController {
         return "Registration successful";
     }
 
-
     // Login
     @PostMapping("/login")
     public Object login(
@@ -80,19 +81,15 @@ public class UserController {
             return "Invalid username or password";
         }
 
-        // Store logged-in username in session
         session.setAttribute(
                 "username",
                 user.getUsername()
         );
 
-        // Do not return password
         return new LoginResponse(user);
     }
 
-
     // Get all users
-    // Password is NOT returned
     @GetMapping("/users")
     public List<SafeUserResponse> getAllUsers() {
 
@@ -102,9 +99,7 @@ public class UserController {
                 .toList();
     }
 
-
     // Get user by username
-    // Session protected
     @GetMapping("/user/{username}")
     public Object getUser(
             @PathVariable String username,
@@ -131,9 +126,7 @@ public class UserController {
         return new SafeUserResponse(user);
     }
 
-
     // Update user profile
-    // Session protected
     @PutMapping("/user/{username}")
     public String updateUser(
             @PathVariable String username,
@@ -170,9 +163,7 @@ public class UserController {
         return "Profile updated successfully";
     }
 
-
     // Update password
-    // Session protected
     @PutMapping("/user/{username}/password")
     public String updatePassword(
             @PathVariable String username,
@@ -203,7 +194,6 @@ public class UserController {
             return "Password cannot be empty";
         }
 
-        // Encrypt new password
         user.setPassword(
                 passwordEncoder.encode(
                         updatedUser.getPassword()
@@ -215,9 +205,7 @@ public class UserController {
         return "Password updated successfully";
     }
 
-
     // Delete user
-    // Session protected
     @DeleteMapping("/user/{username}")
     public String deleteUser(
             @PathVariable String username,
@@ -242,13 +230,10 @@ public class UserController {
         }
 
         repository.delete(user);
-
-        // End session after deleting account
         session.invalidate();
 
         return "User deleted successfully";
     }
-
 
     // Forgot Password
     @PutMapping("/forgot-password")
@@ -274,7 +259,6 @@ public class UserController {
             return "New password cannot be empty";
         }
 
-        // Encrypt new password
         user.setPassword(
                 passwordEncoder.encode(
                         data.getNewPassword()
@@ -285,5 +269,4 @@ public class UserController {
 
         return "Password reset successful";
     }
-
 }
