@@ -5,8 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "app_user")
 public class User {
 
     @Id
@@ -57,33 +59,36 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     public String getBranch() {
-    return branch;
-}
+        return branch;
+    }
 
-public void setBranch(String branch) {
-    this.branch = branch;
-}
-public double getCgpa() {
-    return cgpa;
-}
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
 
-public void setCgpa(double cgpa) {
-    this.cgpa = cgpa;
-}
-public String getSkills() {
-    return skills;
-}
+    public double getCgpa() {
+        return cgpa;
+    }
 
-public void setSkills(String skills) {
-    this.skills = skills;
-}
-public String getResume() {
-    return resume;
-}
+    public void setCgpa(double cgpa) {
+        this.cgpa = cgpa;
+    }
 
-public void setResume(String resume) {
-    this.resume = resume;
-}
-}
+    public String getSkills() {
+        return skills;
+    }
 
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
+}
